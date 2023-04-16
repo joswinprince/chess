@@ -1,8 +1,17 @@
 package com.game.chess;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class ChessBoard {
 	private static String board[][];
+	private static Map<List<Integer>, List<String>> boardReference = new HashMap<>();
+	//private static Map<String,Map> boardReference;
+	private static Map<Integer,Integer> boardReferencePointer;
+	
 
 	public ChessBoard() {
 		 board = new String [8][8];
@@ -19,7 +28,7 @@ public class ChessBoard {
     }
 	
 	
-	public void prepareBoard() {
+	public static void prepareBoard(String boardRef,String rowcol[][]) {
 		
 	}
 	
@@ -36,6 +45,9 @@ public class ChessBoard {
 	public static void addBlackBoard() 
 	{
 		String intformat = "";
+		// Initializing the Board references
+		boardReference = new HashMap<>();
+		boardReferencePointer = new HashMap<>();
 		for(int row=0; row<8; row++) {
 		    for(int col=0; col<8; col++) {
 		    	switch(col)
@@ -62,6 +74,11 @@ public class ChessBoard {
             	}
             	
 		        System.out.print(board[row][col] + " ");
+		        boardReferencePointer.put(row, col);
+		        //boardReference.put(intformat+(row+1), boardReference);
+		        List<Integer> key = Arrays.asList(row, col);
+		        List<String> value = Arrays.asList(intformat+(row+1));
+		        boardReference.put(key, value);
 		    }
 		    System.out.println();
 		}
@@ -72,7 +89,24 @@ public class ChessBoard {
 		c.addBlackBoard();
 		System.out.println("________________________");
 		c.printBoard();
+		System.out.println(c.getPieceAt(5,0));
 		
+		int[][] arr = {{1, 2}, {3, 4}};
+		Map<List<Integer>, List<Integer>> map = new HashMap<>();
+
+		for (int i = 0; i < arr.length; i++) {
+		    for (int j = 0; j < arr[i].length; j++) {
+		        List<Integer> key = Arrays.asList(i, j);
+		        List<Integer> value = Arrays.asList(arr[i][j]);
+		        map.put(key, value);
+		    }
+		}
+
+		for (Entry<List<Integer>, List<String>> entry : boardReference.entrySet()) {
+		    List<Integer> key = entry.getKey();
+		    List<String> value = entry.getValue();
+		    System.out.println(key + " = " + value);
+		}
 	}
 
 }
